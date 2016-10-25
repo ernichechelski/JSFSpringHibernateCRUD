@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>Cars Database</title>
+	<style type="text/css">
+.ui-panelgrid td, .ui-panelgrid tr {
+	border-style: none !important
+}
+</style>
+</h:head>
+<h:body>
+	<h:form id="cars1">
+		<p:growl id="growl" showDetail="false" sticky="true" />
+		<p:fieldset id="addForm" collapsed="true" legend="Add Car to Database"
+			toggleable="true" toggleSpeed="500">
+			<p:ajax event="toggle" />
+			<p:panelGrid columns="2">
+				<label>Make</label>
+				<p:inputText id="make" value="#{CarsListController.car.make}" />
+				<label>Model</label>
+				<p:inputText id="model" value="#{CarsListController.car.model}" />
+				<label>Submodel</label>
+				<p:inputText id="submodel"
+					value="#{CarsListController.car.submodel}" />
+				<label>Year of production</label>
+				<p:inputText id="year" value="#{CarsListController.car.year}">
+					<f:validator validatorId="yearValidator" />
+				</p:inputText>
+				<p:commandButton id="addCarButton"
+					action="#{CarsListController.addCar}"
+					update="cars1 :carsTable:cars2" value="Add car">
+				</p:commandButton>
+			</p:panelGrid>
+		</p:fieldset>
+		<br></br>
+	</h:form>
+	<h:form id="carsTable">
+		<p:dataTable id="cars2" var="car" value="#{CarsListController.cars}"
+			scrollable="true" scrollHeight="100%" editable="true"
+			style="margin-bottom:20px">
+			<p:ajax event="rowEdit" listener="${CarsListController.onRowEdit}"
+				update="cars2" />
+			<f:facet name="header">
+          Cars
+       </f:facet>
+			<p:column headerText="Make">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="${car.make}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="${car.make}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Model">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="${car.model}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="${car.model}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Submodel">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="${car.submodel}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="${car.submodel}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Year" style="width:60px">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText style="center" value="${car.year}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText  value="${car.year}" style="center;width:100%">
+							<f:validator validatorId="yearValidator" />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Edit" style="width:32px">
+				<p:rowEditor />
+			</p:column>
+			<p:column headerText="Delete" style="width:50px">
+				<p:commandButton style="center" action="#{CarsListController.deleteCar(car)}"
+					update="cars2" icon="ui-icon-close" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+	<h:form>
+		<p:commandButton value="Logout" action="#{CarsListController.logout}" />
+	</h:form>
+</h:body>
+</html>

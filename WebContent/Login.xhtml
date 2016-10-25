@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<title>Login</title>
+	<style type="text/css">
+	/*Center login form */
+#form {
+	width: 400px;
+	height: 300px;
+	position: absolute; /*it can be fixed too*/
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	max-width: 100%;
+	max-height: 100%;
+	overflow: auto;
+}
+</style>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:fieldset id="addForm" legend="Login to database">
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel for="username" value="Username:" />
+				<p:inputText id="username" value="#{LoginController.login}"
+					required="true" label="username" />
+				<h:outputLabel for="password" value="Password:" />
+				<p:password id="password" value="#{LoginController.pass}"
+					required="true" label="password" />
+				<p:commandButton value="Confirm" update="growl"
+					action="#{LoginController.login}" />
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+</h:body>
+</html>
